@@ -2,7 +2,11 @@
 
 namespace App\Exceptions;
 
+use Dotenv\Exception\ValidationException;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -46,5 +50,34 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $exception)
+    {
+        if(strpos($request->getRequestUri(), '/api/', 0) == 0 &&
+        get_class($exception) == NotFoundHttpException::class)
+        {
+            return response()->json([
+                'data' => '',
+                'errors' => [
+                    'code' => 'PageNotFound',
+                    'message' => 'Page does not exists.'
+                ],
+                'meta' => ''
+            ], 400);
+        }
+
+        if($exception instanceof ValidationException){
+            return response()->json([
+                'data' => '',
+                'errors' => [
+                    'code' => 'ValidationError',
+                    'message' => $exception->validator->errors()
+                ],
+                'meta' => ''
+            ], 400);
+        }
+
+        return parent::render($request, $exception);
     }
 }

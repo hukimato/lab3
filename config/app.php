@@ -185,7 +185,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        Ensi\LaravelServeSwagger\ServeSwaggerServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -210,6 +210,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'CreateMyListAction' => App\Domain\MyList\Actions\CreateMyListAction::class,
     ])->toArray(),
 
 ];

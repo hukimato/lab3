@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\ApiV1\MyLists\Controllers\MyListController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +16,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('v1/my-lists', 'App\Http\ApiV1\Modules\MyLists\Controllers\MyListController@list');
+Route::post('v1/my-lists', 'App\Http\ApiV1\Modules\MyLists\Controllers\MyListController@create');
+Route::get('v1/my-lists/{id}', 'App\Http\ApiV1\Modules\MyLists\Controllers\MyListController@get');
+Route::put('v1/my-lists/{id}', 'App\Http\ApiV1\Modules\MyLists\Controllers\MyListController@put');
+Route::patch('v1/my-lists/{id}', 'App\Http\ApiV1\Modules\MyLists\Controllers\MyListController@patch');
+Route::delete('v1/my-lists/{id}', 'App\Http\ApiV1\Modules\MyLists\Controllers\MyListController@delete');
+
+Route::get('v1/tasks', 'App\Http\ApiV1\Modules\Tasks\Controllers\TaskController@list');
+Route::post('v1/tasks', 'App\Http\ApiV1\Modules\Tasks\Controllers\TaskController@create');
+Route::get('v1/tasks/{id}', 'App\Http\ApiV1\Modules\Tasks\Controllers\TaskController@get');
+Route::put('v1/tasks/{id}', 'App\Http\ApiV1\Modules\Tasks\Controllers\TaskController@put');
+Route::patch('v1/tasks/{id}', 'App\Http\ApiV1\Modules\Tasks\Controllers\TaskController@patch');
+Route::delete('v1/tasks/{id}', 'App\Http\ApiV1\Modules\Tasks\Controllers\TaskController@delete');
+
