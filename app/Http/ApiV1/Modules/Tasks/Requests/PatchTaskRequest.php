@@ -9,6 +9,11 @@ use Illuminate\Validation\Rule;
 
 class PatchTaskRequest extends FormRequest
 {
+    protected function prepareForValidation()
+    {
+        $this->merge(['id' => $this->route('id')]);
+    }
+
     public function rules(): array 
     {
         return [

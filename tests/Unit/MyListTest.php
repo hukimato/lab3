@@ -7,7 +7,7 @@ uses(Tests\TestCase::class);
 
 it('does not create myList without title field', function(){
     $response = $this->postJson('/api/v1/my-lists', []);
-    $response->assertStatus(400);
+    $response->assertStatus(422);
 });
 
 it('can create list', function(){

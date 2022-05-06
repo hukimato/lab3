@@ -103,6 +103,7 @@ class TaskController
     PatchTaskRequest $request,
                             PatchTaskAction $action
     )   {
+        
         $data = $request->validated();
         $id = $data['id'];
         $content = (array_key_exists('content', $data)? $data['content'] : null);

@@ -6,7 +6,7 @@ uses(Tests\TestCase::class);
 
 it('does not create Task without title field', function(){
     $response = $this->postJson('/api/v1/tasks', []);
-    $response->assertStatus(400);
+    $response->assertStatus(422);
 });
 
 it('can create task', function(){
