@@ -31,20 +31,12 @@ class TaskController
     public function list(ListTaskRequest $request,
     ListTaskAction $action
     )   {
-        $skip = $request->input('skip');
-        $take = $request->input('take');
-        $list_id = $request->input('list_id');
-        if($list_id === null)
-        {
-            return response()->json([
-                'data' => '',
-                'errors' => [
-                    'code' => 'TooFewParam',
-                    'message' => "list_id is required"
-                ],
-                'meta' => ''
-            ], 400);
-        }
+        $data = $request->validated();
+
+        $skip = $request['skip'];
+        $take = $request['take'];
+        $list_id = $request['list_id'];
+        
         if($skip == null || $take == null){
             return new TaskCollection($action->execute(0, 0, $list_id));
         }
@@ -70,20 +62,10 @@ class TaskController
         )->response()->setStatusCode(200);
     }
 
-    public function get(int $id
-    )   {
-        $task = Task::find($id);
-        if($task == null)
-        {
-            return response()->json([
-                'data' => '',
-                'errors' => [
-                    'code' => 'NotFoundResource',
-                    'message' => "Task with id {$id} not found."
-                ],
-                'meta' => ''
-            ], 400);
-        }
+    public function get(int $id, GetTaskRequest $request)   
+    {
+        $data = $request->validated();
+        $task = Task::find($request['id']);
         return (new TaskResource($task))->additional(
             [
                 'errors' => [
@@ -100,30 +82,11 @@ class TaskController
                         PutTaskRequest $request,
                         PutTaskAction $action
     )   {
-        if(Task::find($id)==null){
-            return response()->json([
-                'data' => '',
-                'errors' => [
-                    'code' => 'NotFoundResource',
-                    'message' => "Task with id {$id} not found."
-                ],
-                'meta' => ''
-            ], 400);
-        }
         $data = $request->validated();
-        $content = (array_key_exists('content', $data) && empty($data['content'])? $data['content'] : null);
+        $id = $data['id'];
+        $content = (array_key_exists('content', $data)? $data['content'] : null);
         $list_id = (array_key_exists('list_id', $data)? $data['list_id'] : null);
         $is_done = (array_key_exists('is_done', $data)? $data['is_done'] : null);
-        if($list_id != null && MyList::find($list_id)==null){
-            return response()->json([
-                'data' => '',
-                'errors' => [
-                    'code' => 'NotFoundResource',
-                    'message' => "MyList with id {$list_id} not found."
-                ],
-                'meta' => ''
-            ], 400);
-        }
         return (new TaskResource($action->execute($id, $content, $list_id, $is_done)))->additional(
             [
                 'errors' => [
@@ -140,30 +103,11 @@ class TaskController
     PatchTaskRequest $request,
                             PatchTaskAction $action
     )   {
-        if(Task::find($id)==null){
-            return response()->json([
-                'data' => '',
-                'errors' => [
-                    'code' => 'NotFoundResource',
-                    'message' => "Task with id {$id} not found."
-                ],
-                'meta' => ''
-            ], 400);
-        }
         $data = $request->validated();
+        $id = $data['id'];
         $content = (array_key_exists('content', $data)? $data['content'] : null);
         $list_id = (array_key_exists('list_id', $data)? $data['list_id'] : null);
         $is_done = (array_key_exists('is_done', $data)? $data['is_done'] : null);
-        if($list_id != null && MyList::find($list_id)==null){
-            return response()->json([
-                'data' => '',
-                'errors' => [
-                    'code' => 'NotFoundResource',
-                    'message' => "MyList with id {$list_id} not found."
-                ],
-                'meta' => ''
-            ], 400);
-        }
         return (new TaskResource($action->execute($id, $content, $list_id, $is_done)))->additional(
             [
                 'errors' => [

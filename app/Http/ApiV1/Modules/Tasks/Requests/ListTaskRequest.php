@@ -12,7 +12,9 @@ class ListTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            
+            'take' => 'integer',
+            'skip' => 'integer',
+            'list_id' => ['integer', 'required', 'exists:my_lists,id']
         ];
     }
 

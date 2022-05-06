@@ -57,50 +57,28 @@ class MyListController
         )->response()->setStatusCode(200);
     }
 
-    public function get(int $id
-    )   {
-        $myList = MyList::find($id);
-        if ($myList == null){
-            return response()->json([
-                'data' => '',
+    public function get(int $id, GetMyListRequest $request)  
+    {
+        $data = $request->validated();
+        $myList = MyList::find($data['id']);
+        return (new MyListResource($myList))->additional(
+            [
                 'errors' => [
-                    'code' => 'NotFoundResource',
-                    'message' => "MyList with id {$id} not found."
-                ],
-                'meta' => ''
-            ], 400);
-        }
-        else {
-            return (new MyListResource($myList))->additional(
-                [
-                    'errors' => [
                         
-                    ],
-                    'meta' => [
+                ],
+                'meta' => [
     
-                    ]
                 ]
-            )->response()->setStatusCode(200);
-        }
-        
+            ]
+        )->response()->setStatusCode(200); 
     }
 
     public function put(int $id, 
                         PutMyListRequest $request,
                         PutMyListAction $action
     )   {
-        if(MyList::find($id)==null){
-            return response()->json([
-                'data' => '',
-                'errors' => [
-                    'code' => 'NotFoundResource',
-                    'message' => "MyList with id {$id} not found."
-                ],
-                'meta' => ''
-            ], 400);
-        }
         $requestArray = $request->validated();
-        
+        $id = $requestArray['id'];
         $title = $requestArray['title'];
         return (new MyListResource($action->execute($id, $title)))->additional(
             [
@@ -118,18 +96,8 @@ class MyListController
                             PatchMyListRequest $request,
                             PatchMyListAction $action
     )   {
-        if(MyList::find($id)==null){
-            return response()->json([
-                'data' => '',
-                'errors' => [
-                    'code' => 'NotFoundResource',
-                    'message' => "MyList with id {$id} not found."
-                ],
-                'meta' => ''
-            ], 400);
-        }
         $requestArray = $request->validated();
-        
+        $id = $requestArray['id'];
         $title = $requestArray['title'];
         return (new MyListResource($action->execute($id, $title)))->additional(
             [

@@ -12,6 +12,7 @@ class PatchTaskRequest extends FormRequest
     public function rules(): array 
     {
         return [
+            'id' => ['required', 'integer', 'exists:tasks,id'],
             'content' => ['string', 'required_without_all:is_done,list_id'],
             'is_done' => ['boolean','required_without_all:content,list_id'],
             'list_id' => ['integer', 'required_without_all:is_done,content'],

@@ -12,6 +12,7 @@ class PutMyListRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => ['required', 'integer', 'exists:my_lists,id'],
             'title' => 'string|required',
         ];
     }

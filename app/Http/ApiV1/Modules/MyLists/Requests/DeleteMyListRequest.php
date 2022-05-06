@@ -12,7 +12,7 @@ class DeleteMyListRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['integer'],
+            'id' => ['required', 'integer', 'exists:my_lists,id'],
         ];
     }
 

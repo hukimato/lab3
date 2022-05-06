@@ -12,7 +12,8 @@ class ListMyListRequest extends FormRequest
     public function rules(): array
     {
         return [
-            
+            'take' => 'integer',
+            'skip' => 'integer',
         ];
     }
 
