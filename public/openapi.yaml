@@ -1,0 +1,494 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Swagger Petstore
+paths:
+  /lists:
+    get:                                                                  #GET api/v1/lists
+      summary: List all lists
+      operationId: listLists
+      tags:
+        - lists
+      parameters:
+        - name: limit
+          in: query
+          description: How many items to return at one time
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: offset
+          in: query
+          description: How many items to skip
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: A paged array of lists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseMyListArrayRespose"
+        '422':
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseMyListArrayRespose"
+    post:                                                                 #POST api/v1/lists
+      summary: Create a list 
+      operationId: createList
+      tags:
+        - lists
+      parameters:
+        - in: body
+          name: list 
+          description: The list to create 
+          schema: 
+            type: object
+            required:
+              - title
+            properties:
+              title:
+                type: string 
+      responses:
+        '200':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseMyListArrayRespose"
+        '422':
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseMyListArrayRespose"
+  /lists/{listId}:
+    get:                                                                  #GET api/v1/lists/{listID}
+      summary: Info for a cpecific list
+      operationId: getListById
+      tags:
+        - lists
+      parameters:
+        - name: listId 
+          in: path 
+          required: true
+          description: The id of the list to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseMyListArrayRespose" 
+        '422':
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseMyListArrayRespose"
+    put:                                                                  #PUT api/v1/lists/{listID}
+      summary: Replace a cpecific list
+      operationId: replaceListById
+      tags:
+        - lists
+      parameters:
+        - in: body
+          name: list 
+          description: The list to create 
+          schema: 
+            type: object
+            required:
+              - title
+            properties:
+              title:
+                type: string
+        - in: path  
+          name: listId 
+          required: true
+          description: The id of the list to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseMyListArrayRespose" 
+        '422':
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseMyListArrayRespose"
+    patch:                                                                #PATCH api/v1/lists/{listID}
+      summary: Patch a cpecific list
+      operationId: patchListById
+      tags:
+        - lists
+      parameters:
+        - in: body
+          name: list 
+          description: The list to create 
+          schema: 
+            type: object
+            required:
+              - title
+            properties:
+              title:
+                type: string
+        - in: path  
+          name: listId 
+          required: true
+          description: The id of the list to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseMyListArrayRespose" 
+        '422':
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseMyListArrayRespose"
+    delete:                                                               #DELETE api/v1/lists/{listID}
+      summary: Delete a cpecific list
+      operationId: deleteListById
+      tags:
+        - lists
+      parameters:
+        - name: listId 
+          in: path 
+          required: true
+          description: The id of the list to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+        '422':
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseMyListArrayRespose"
+  /tasks:
+    get:                                                                  #GET api/v1/tasks
+      summary: List all tasks of the list
+      operationId: listTasks
+      tags:
+        - tasks
+      parameters:
+        - name: limit
+          in: query
+          description: How many items to return at one time
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: offset
+          in: query
+          description: How many items to skip
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: list
+          in: query
+          description: From which list 
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: A paged array of tasks
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseTaskArrayRespose"
+        '422':
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseTaskArrayRespose"
+    post:                                                                 #POST api/v1/tasks
+      summary: Create a task
+      operationId:  createTask
+      tags:
+        - tasks
+      parameters:
+        - in: body
+          name: task 
+          description: The task to create 
+          schema: 
+            type: object
+            required:
+              - content 
+              - list_id 
+            properties:
+              content:
+                type: string 
+              list_id:
+                type: integer 
+                format: int64
+      responses:
+        '200':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseTaskArrayRespose"
+        '422':
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseTaskArrayRespose"
+  /tasks/{taskId}:                                                        #GET api/v1/tasks/{taskID}
+    get:
+      summary: Info for a cpecific task
+      operationId: getTaskById
+      tags:
+        - tasks
+      parameters:
+        - name: taskId 
+          in: path 
+          required: true
+          description: The id of the task to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseTaskArrayRespose" 
+        '422':
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseTaskArrayRespose"
+    put:                                                                  #PUT api/v1/tasks/{taskID}
+      summary: Replace a cpecific task
+      operationId: replaceTaskById
+      tags:
+        - tasks
+      parameters:
+        - in: body
+          name: task 
+          description: The task to replace 
+          schema: 
+            type: object
+            required:
+              - content 
+              - list_id 
+            properties:
+              content:
+                type: string 
+              list_id:
+                type: integer 
+                format: int64
+        - in: path  
+          name: taskId 
+          required: true
+          description: The id of the task to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseTaskArrayRespose" 
+        '422':
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseTaskArrayRespose"
+    patch:                                                                #PATCH api/v1/tasks/{taskID}
+      summary: Patch a cpecific task
+      operationId: patchTaskById
+      tags:
+        - tasks
+      parameters:
+        - in: body
+          name: task 
+          description: The task to edit  
+          schema: 
+            type: object
+            required:
+              - content 
+              - is_done
+            properties:
+              content:
+                type: string
+              is_done: 
+                type: boolean 
+        - in: path  
+          name: taskId  
+          required: true
+          description: The id of the task to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseTaskArrayRespose" 
+        '422':
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseTaskArrayRespose"
+    delete:                                                               #DELETE api/v1/tasks/{taskID}
+      summary: Delete a cpecific task
+      operationId: deleteTaskById
+      tags:
+        - tasks
+      parameters:
+        - name: taskId 
+          in: path 
+          required: true
+          description: The id of the task to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseTaskArrayRespose"
+        '422':
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseTaskArrayRespose"
+components:
+  schemas:
+    List: 
+      type: object
+      required: 
+        - id 
+        - title
+      properties:
+        id: 
+          type: integer
+          format: int64
+        title:
+          type: string
+    Lists: 
+      type: array
+      items:
+        $ref: "#/components/schemas/List" 
+    Task: 
+      type: object
+      required: 
+        - id 
+        - content 
+        - list_id
+        - is_done
+      properties:
+        id: 
+          type: integer
+          format: int64
+        title:
+          type: string
+        list_id: 
+          type: integer
+          format: int64
+        is_done:
+          type: boolean
+    Tasks: 
+      type: array
+      items:
+        $ref: "#/components/schemas/Task"
+    BaseTaskArrayRespose:
+      type: object
+      required:
+        - data
+        - errors
+        - meta
+      properties:
+        data:
+          type: array
+          items: 
+            ref: "#/components/schemas/Task"
+        errors: 
+          type: array
+          items: 
+            ref: "#/components/schemas/Error"
+        meta: 
+          type: string
+    BaseTaskRespose:
+      type: object
+      required:
+        - data
+        - errors
+        - meta
+      properties:
+        data:
+          type: object
+          items: 
+            ref: "#/components/schemas/Task"
+        errors: 
+          type: array
+          items: 
+            ref: "#/components/schemas/Error"
+        meta: 
+          type: string
+    BaseMyListArrayRespose:
+      type: object
+      required:
+        - data
+        - errors
+        - meta
+      properties:
+        data:
+          type: array
+          items: 
+            ref: "#/components/schemas/MyList"
+        errors: 
+          type: array
+          items: 
+            ref: "#/components/schemas/Error"
+        meta: 
+          type: string
+    BaseMyListRespose:
+      type: object
+      required:
+        - data
+        - errors
+        - meta
+      properties:
+        data:
+          type: object
+          items: 
+            ref: "#/components/schemas/Task"
+        errors: 
+          type: array
+          items: 
+            ref: "#/components/schemas/Error"
+        meta: 
+          type: string
