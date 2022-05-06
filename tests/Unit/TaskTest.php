@@ -1,6 +1,7 @@
 <?php
 
 use App\Domain\Task\Models\Task;
+use App\Domain\MyList\Models\MyList;
 
 uses(Tests\TestCase::class);
 
@@ -10,20 +11,28 @@ it('does not create Task without title field', function(){
 });
 
 it('can create task', function(){
+    $list = new MyList;
+    $list->title = "testList";
+    $list->save();
     $attributes = [
         'content' => 'UnitTestList',
-        'list_id' => 5,
+        'list_id' => $list->id,
         'is_done' => false
     ];
     $response = $this->postJson('/api/v1/tasks', $attributes);
+
     $response->assertStatus(200);
     $this->assertDatabaseHas('tasks', $attributes);
 });
 
 it('cat get task', function(){
+    $list = new MyList;
+    $list->title = "testList";
+    $list->save();
+
     $task = new Task;
     $task->content = 'test';
-    $task->list_id = 5;
+    $task->list_id = $list->id;
     $task->is_done = false;
     $task->save();
 
@@ -44,9 +53,13 @@ it('cat get task', function(){
 });
 
 it('cat patch task', function(){
+    $list = new MyList;
+    $list->title = "testList";
+    $list->save();
+
     $task = new Task;
     $task->content = 'test';
-    $task->list_id = 5;
+    $task->list_id = $list->id;
     $task->is_done = false;
     $task->save();
 
@@ -67,9 +80,13 @@ it('cat patch task', function(){
 });
 
 it('cat put task', function(){
+    $list = new MyList;
+    $list->title = "testList";
+    $list->save();
+
     $task = new Task;
     $task->content = 'test';
-    $task->list_id = 5;
+    $task->list_id = $list->id;
     $task->is_done = false;
     $task->save();
 
@@ -90,9 +107,13 @@ it('cat put task', function(){
 });
 
 it('can delete task', function(){
+    $list = new MyList;
+    $list->title = "testList";
+    $list->save();
+
     $task = new Task;
     $task->content = 'test';
-    $task->list_id = 5;
+    $task->list_id = $list->id;
     $task->is_done = false;
     $task->save();
 

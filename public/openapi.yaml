@@ -423,18 +423,7 @@ components:
     Tasks: 
       type: array
       items:
-        $ref: "#/components/schemas/Task" 
-    Error: 
-      type: object
-      required: 
-        - code 
-        - message
-      properties:
-        code: 
-          type: integer
-          format: int32
-        message:
-          type: string
+        $ref: "#/components/schemas/Task"
     BaseTaskArrayRespose:
       type: object
       required:
@@ -444,11 +433,11 @@ components:
       properties:
         data:
           type: array
-          item: 
+          items: 
             ref: "#/components/schemas/Task"
         errors: 
           type: array
-          item: 
+          items: 
             ref: "#/components/schemas/Error"
         meta: 
           type: string
@@ -461,11 +450,11 @@ components:
       properties:
         data:
           type: object
-          item: 
+          items: 
             ref: "#/components/schemas/Task"
         errors: 
           type: array
-          item: 
+          items: 
             ref: "#/components/schemas/Error"
         meta: 
           type: string
@@ -478,11 +467,11 @@ components:
       properties:
         data:
           type: array
-          item: 
+          items: 
             ref: "#/components/schemas/MyList"
         errors: 
           type: array
-          item: 
+          items: 
             ref: "#/components/schemas/Error"
         meta: 
           type: string
@@ -495,11 +484,11 @@ components:
       properties:
         data:
           type: object
-          item: 
+          items: 
             ref: "#/components/schemas/Task"
         errors: 
           type: array
-          item: 
+          items: 
             ref: "#/components/schemas/Error"
         meta: 
           type: string
