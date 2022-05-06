@@ -2,6 +2,7 @@
 
 use App\Domain\Task\Models\Task;
 use App\Domain\MyList\Models\MyList;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(Tests\TestCase::class);
 

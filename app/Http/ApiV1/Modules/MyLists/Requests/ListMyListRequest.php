@@ -9,6 +9,12 @@ use Illuminate\Validation\Rule;
 
 class ListMyListRequest extends FormRequest
 {
+    protected function prepareForValidation()
+    {
+        $this->merge(['take' => $this->route('take')]);
+        $this->merge(['skip' => $this->route('skip')]);
+    }
+
     public function rules(): array
     {
         return [
